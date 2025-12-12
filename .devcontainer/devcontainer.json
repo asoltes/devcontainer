@@ -45,8 +45,10 @@
       ],
       // Set *default* container specific settings.json values on container create
       "settings": {
-        "terminal.integrated.fontFamily": "RobotoMono Nerd Font Mono",
+        "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
         "terminal.integrated.fontLigatures.enabled": true,
+        "terminal.integrated.gpuAcceleration": "canvas",
+        "terminal.integrated.lineHeight": 1.3,
         "dev.containers.mountWaylandSocket": false,
         "terminal.integrated.defaultProfile.linux": "zsh",
         "terminal.integrated.profiles.linux": {
