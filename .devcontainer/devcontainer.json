@@ -1,0 +1,131 @@
+{
+  "name": "Terraform Development Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "ubuntu-22.04",
+      "TERRAFORM_VERSION": "1.14.1",
+      "TERRAFORM_DOCS_VERSION": "0.20.0",
+      "TFSEC_VERSION": "1.28.14",
+      "TERRASCAN_VERSION": "1.19.9",
+      "TFLINT_VERSION": "0.60.0",
+      "TFLINT_AWS_RULESET_VERSION": "0.23.1",
+      "TERRAGRUNT_VERSION": "0.50.1",
+      "TERRATEST_VERSION": "0.49.0",
+      "INFRACOST_VERSION": "0.10.41",
+      "CHECKOV_VERSION": "3.2.439",
+      "TRIVY_VERSION": "0.68.1"
+    }
+  },
+  "postStartCommand":  "post-start",
+  // "postAttachCommand": "bash",
+  "remoteUser": "vscode",
+
+  // Configure tool-specific properties
+  "customizations": {
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created
+      "extensions": [
+        "hashicorp.terraform",
+        "run-at-scale.terraform-doc-snippets",
+        "redhat.vscode-yaml",
+        "donjayamanne.githistory",
+        "mhutchie.git-graph",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode-remote.remote-ssh",
+        "ms-vscode-remote.remote-ssh-edit",
+        "streetsidesoftware.code-spell-checker",
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        "timonwong.shellcheck",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "docker.docker",
+        "ms-azuretools.vscode-containers"
+      ],
+      // Set *default* container specific settings.json values on container create
+      "settings": {
+        "terminal.integrated.fontFamily": "RobotoMono Nerd Font Mono",
+        "terminal.integrated.fontLigatures.enabled": true,
+        "dev.containers.mountWaylandSocket": false,
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          },
+          "zsh": {
+            "path": "/usr/bin/zsh",
+            "icon": "terminal-ubuntu"
+          }
+        },
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": false,
+        "editor.formatOnType": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+
+        // Terraform settings
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.tabSize": 2
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true,
+          "editor.tabSize": 2
+        },
+        "terraform.languageServer": {
+          "enabled": true,
+          "args": ["serve"]
+        },
+        "terraform.experimentalFeatures.validateOnSave": true,
+
+        // YAML settings
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml",
+          "editor.formatOnSave": true,
+          "editor.tabSize": 2
+        },
+
+        // Markdown settings
+        "[markdown]": {
+          "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+          "editor.formatOnSave": true
+        }
+      }
+    }
+  },
+
+  // Mount host volumes for credentials and caching
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
+    "source=terraform-cache,target=/home/vscode/.terraform.d/plugin-cache,type=volume"
+  ],
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally
+  // "forwardPorts": [],
+
+  // Features to add to the dev container
+  "features": {
+    "ghcr.io/GeorgOfenbeck/features/lazygit-linuxbinary:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "installOhMyZshConfig": true,
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
+      "plugins": "git zsh-autosuggestions zsh-syntax-highlighting aws z",
+      "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions.git https://github.com/zsh-users/zsh-syntax-highlighting.git"
+    }
+  },
+  // Environment variables
+  "containerEnv": {
+    "TF_PLUGIN_CACHE_DIR": "/home/vscode/.terraform.d/plugin-cache"
+  }
+}
