@@ -44,4 +44,4 @@ if [ ! -d "/home/vscode/.fzf" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git "/home/vscode/.fzf"
 fi
 
-"$HOME/.fzf/install" --all
+"home/vscode/.fzf/install" --all
