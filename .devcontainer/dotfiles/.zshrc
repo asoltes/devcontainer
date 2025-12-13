@@ -114,6 +114,7 @@ source $ZSH/oh-my-zsh.sh
 source /home/vscode/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
 if command -v go &> /dev/null; then
   export PATH="$PATH:/usr/local/go/bin"
+  export GOROOT=/usr/local/go
 fi
 
 # Load bash-my-aws completion if installed
