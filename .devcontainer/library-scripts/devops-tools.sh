@@ -35,15 +35,24 @@ rm -f /tmp/terraform-docs.tar.gz
 # rm -f /tmp/terrascan.tar.gz
 
 echo "Installing tflint v${TFLINT_VERSION}..."
-curl -sSLo /tmp/tflint.zip "https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_amd64.zip"
-unzip -qq /tmp/tflint.zip -d /tmp
+curl -fSL -o /tmp/tflint.zip "https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_amd64.zip"
+if ! unzip -qq /tmp/tflint.zip -d /tmp; then
+  echo "Failed to unzip TFLint archive. Download may have been rate-limited. Retrying with explicit header..."
+  curl -fSL -H "Accept: application/octet-stream" -o /tmp/tflint.zip "https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_amd64.zip"
+  unzip -qq /tmp/tflint.zip -d /tmp
+fi
 sudo mv /tmp/tflint /usr/local/bin/
 rm -f /tmp/tflint.zip
 
 echo "Installing TFLint AWS ruleset v${TFLINT_AWS_RULESET_VERSION}..."
-mkdir -p ~/.tflint.d/plugins
-curl -sSLo /tmp/tflint-aws-ruleset.zip "https://github.com/terraform-linters/tflint-ruleset-aws/releases/download/v${TFLINT_AWS_RULESET_VERSION}/tflint-ruleset-aws_linux_amd64.zip"
-unzip -qq /tmp/tflint-aws-ruleset.zip -d ~/.tflint.d/plugins
+mkdir -p /home/vscode/.tflint.d/plugins
+curl -fSL -o /tmp/tflint-aws-ruleset.zip "https://github.com/terraform-linters/tflint-ruleset-aws/releases/download/v${TFLINT_AWS_RULESET_VERSION}/tflint-ruleset-aws_linux_amd64.zip"
+if ! unzip -qq /tmp/tflint-aws-ruleset.zip -d /home/vscode/.tflint.d/plugins; then
+  echo "Failed to unzip TFLint AWS ruleset. Retrying with explicit header..."
+  curl -fSL -H "Accept: application/octet-stream" -o /tmp/tflint-aws-ruleset.zip "https://github.com/terraform-linters/tflint-ruleset-aws/releases/download/v${TFLINT_AWS_RULESET_VERSION}/tflint-ruleset-aws_linux_amd64.zip"
+  unzip -qq /tmp/tflint-aws-ruleset.zip -d /home/vscode/.tflint.d/plugins
+fi
+chown -R vscode:vscode /home/vscode/.tflint.d
 rm -f /tmp/tflint-aws-ruleset.zip
 
 # echo "Installing Terragrunt v${TERRAGRUNT_VERSION}..."
@@ -63,8 +72,10 @@ if ! command -v go &> /dev/null; then
     GO_VERSION="1.25.5"
     curl -sSLo /tmp/go.tar.gz "https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz"
     sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+    # shellcheck disable=SC2129
     echo "" >> /home/vscode/.zshrc
-    echo "export PATH=$PATH:/usr/local/go/bin" >> /home/vscode/.zshrc
+    # echo "export PATH=$PATH:/usr/local/go/bin" >> /home/vscode/.zshrc
+    # echo "export PATH=$PATH:/usr/local/go" >> /home/vscode/.zshrc
     rm -f /tmp/go.tar.gz
 fi
 
