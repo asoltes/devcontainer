@@ -8,16 +8,15 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT} AS builder
 # Set versions as build args
 ARG TERRAFORM_VERSION="1.14.1"
 ARG TERRAFORM_DOCS_VERSION="0.20.0"
-ARG TFSEC_VERSION="1.28.14"
-ARG TERRASCAN_VERSION="1.19.9"
 ARG TFLINT_VERSION="0.60.0"
 ARG TFLINT_AWS_RULESET_VERSION="0.23.1"
-ARG TERRAGRUNT_VERSION="0.50.1"
-ARG TERRATEST_VERSION="0.49.0"
 ARG INFRACOST_VERSION="0.10.41"
-ARG CHECKOV_VERSION="3.2.439"
-ARG HELM_VERSION="4.0.2"
 ARG ANSIBLE_VERSION="2.12.3"
+ARG HELM_VERSION="4.0.2"
+# ARG CHECKOV_VERSION="3.2.439"
+# ARG TERRAGRUNT_VERSION="0.50.1"
+# ARG TERRATEST_VERSION="0.49.0"
+# ARG TERRASCAN_VERSION="1.19.9"
 
 # Copy library scripts
 COPY library-scripts/*.sh /tmp/library-scripts/
@@ -32,24 +31,13 @@ RUN bash /tmp/library-scripts/common-utils.sh
 RUN /tmp/library-scripts/devops-tools.sh \
     "${TERRAFORM_VERSION}" \
     "${TERRAFORM_DOCS_VERSION}" \
-    "${TFSEC_VERSION}" \
-    "${TERRASCAN_VERSION}" \
     "${TFLINT_VERSION}" \
     "${TFLINT_AWS_RULESET_VERSION}" \
-    "${TERRAGRUNT_VERSION}" \
-    "${TERRATEST_VERSION}" \
     "${INFRACOST_VERSION}" \
-    "${CHECKOV_VERSION}" \
     "${ANSIBLE_VERSION}" \
     "${HELM_VERSION}"
-
-# Prepare user config created by scripts (tflint, etc.)
-RUN mkdir -p /home/vscode && chown -R vscode:vscode /home/vscode
-
-# Clean builder apt caches to keep builder lean
 RUN apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
-
 
 # ---------------------
 # Final stage: copy only runtime assets
@@ -72,11 +60,13 @@ RUN /tmp/library-scripts/custom-zsh-shell.sh
 COPY --from=builder /usr/local/bin/terraform /usr/local/bin/terraform
 COPY --from=builder /usr/local/bin/terraform-docs /usr/local/bin/terraform-docs
 COPY --from=builder /usr/local/bin/tflint /usr/local/bin/tflint
-COPY --from=builder /usr/local/bin/terratest /usr/local/bin/terratest
 COPY --from=builder /usr/local/bin/infracost /usr/local/bin/infracost
 COPY --from=builder /usr/local/bin/argocd /usr/local/bin/argocd
 COPY --from=builder /usr/local/bin/kubectl /usr/local/bin/kubectl
 COPY --from=builder /usr/local/bin/helm /usr/local/bin/helm
+COPY --from=builder /usr/local/go/bin/go /usr/local/go/bin/go
+
+# COPY --from=builder /usr/local/bin/terratest /usr/local/bin/terratest
 # COPY --from=builder /usr/local/bin/terragrunt /usr/local/bin/terragrunt
 # COPY --from=builder /usr/local/bin/tfsec /usr/local/bin/tfsec
 # COPY --from=builder /usr/local/bin/terrascan /usr/local/bin/terrascan
@@ -84,6 +74,9 @@ COPY --from=builder /usr/local/bin/helm /usr/local/bin/helm
 
 # AWS CLI and SAM CLI: install in final stage to preserve runtime layout
 RUN /tmp/library-scripts/cloud-cli-tools.sh
+
+# Pre-commit, ansible and cookiecutter
+RUN /tmp/library-scripts/pip-tools.sh
 
 # Trivy (installed via apt in builder; copy binary)
 COPY --from=builder /usr/bin/trivy /usr/local/bin/trivy

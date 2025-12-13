@@ -40,5 +40,8 @@ echo 'source /home/vscode/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.z
 #     -p z \
 #     -t powerlevel10k \
 
-# Set timezone to Asia/Manila
-sudo ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
+if [ ! -d "$HOME/.fzf" ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+fi
+
+"$HOME/.fzf/install" --all

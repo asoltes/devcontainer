@@ -15,10 +15,9 @@ aws_completer_path=$(which aws_completer)
 if [ -f "$aws_completer_path" ]; then
     echo "Setting up AWS CLI autocompletion..."
     complete -C "$aws_completer_path" aws
-    echo "complete -C '$aws_completer_path' aws" >> /home/vscode/.bashrc
+    echo "complete -C '$aws_completer_path' aws" >> /home/vscode/.zshrc
     echo "AWS CLI autocompletion setup complete!"
 fi
-
 
 # Installing SAM CLI
 echo "Installing SAM CLI"
@@ -28,8 +27,13 @@ unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
 sam --version
 rm -rf aws-sam-cli-linux-x86_64.zip sam-installation
 
+# Ansible installation
+python3 -m pip install ansible
+
 # Append AWS profile switcher function to .bashrc
-cat >> /home/vscode/.zshrc <<'EOF'
+for rc_file in /home/vscode/.bashrc /home/vscode/.zshrc; do
+    if [ -f "$rc_file" ]; then
+        cat >> "$rc_file" <<'EOF'
 function ax() {
     if [ -z "$1" ]; then
         export AWS_PROFILE="ctp-dev"
@@ -44,6 +48,8 @@ function ax() {
     echo "Switched to AWS profile: $AWS_PROFILE"
 }
 EOF
+    fi
+done
 
 # Create directories for credentials
 mkdir -p /home/vscode/.aws

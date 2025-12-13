@@ -23,12 +23,8 @@ apt-get -y install --no-install-recommends \
     unzip \
     python3 \
     python3-pip \
-    python-is-python3
-
-# Install pre-commit
-echo "Installing pre-commit..."
-python3 -m pip install --upgrade pip
-pip3 install --no-cache-dir pre-commit
+    python-is-python3 \
+    fzf \
 
 # Create directory for Terraform plugin cache
 mkdir -p /home/vscode/.terraform.d/plugin-cache
@@ -39,12 +35,10 @@ mkdir -p /home/vscode/.ssh
 chown -R vscode:vscode /home/vscode/.ssh
 chmod 700 /home/vscode/.ssh
 
+# Set timezone to Asia/Manila
+sudo ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
+
 echo "Common utilities installation complete!"
-
-#Install cookiecutter
-python3 -m pip install cookiecutter
-pipx ensurepath --force
-
 
 # # Powerline fonts for zsh theme
 # git clone https://github.com/powerline/fonts.git

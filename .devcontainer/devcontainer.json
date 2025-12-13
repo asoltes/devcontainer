@@ -118,7 +118,7 @@
       "configureZshAsDefaultShell": false
     },
     "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
-      "plugins": "git zsh-autosuggestions zsh-syntax-highlighting aws z",
+      "plugins": "git zsh-autosuggestions zsh-syntax-highlighting aws z fzf",
       "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions.git https://github.com/zsh-users/zsh-syntax-highlighting.git"
     }
   },

@@ -42,7 +42,6 @@ echo ""
 echo "=== Environment Information ==="
 echo "Working Directory: $(pwd)"
 echo "User: $(whoami)"
-echo ""
 
 # Display authentication 9status
 echo "=== Multiple Authentication Commands ==="
@@ -61,6 +60,11 @@ echo "terraform fmt - Rewrites config files to canonical format"
 echo "pre-commit run --all-files - Run pre-commit hooks on all files"
 # echo "npx semantic-release --dry-run - Test semantic-release process without publishing"
 echo ""
+
+# Programming Language Versions
+echo "=== Programming Language Versions ==="
+echo "Python: $(python3 --version)"
+echo "Go: $(go version)"
 
 # Display container information if available
 if command -v devcontainer-info &> /dev/null; then

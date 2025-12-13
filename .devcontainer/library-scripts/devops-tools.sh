@@ -6,16 +6,10 @@ set -e
 # Versions
 TERRAFORM_VERSION=${1:-"1.14.1"}
 TERRAFORM_DOCS_VERSION=${2:-"0.20.0"}
-TFSEC_VERSION=${3:-"1.28.14"}
-TERRASCAN_VERSION=${4:-"1.19.9"}
-TFLINT_VERSION=${5:-"0.60.0"}
-TFLINT_AWS_RULESET_VERSION=${6:-"0.23.1"}
-# TERRAGRUNT_VERSION=${7:-"0.50.1"}
-TERRATEST_VERSION=${8:-"0.49.0"}
-INFRACOST_VERSION=${9:-"0.10.41"}
-CHECKOV_VERSION=${10:-"3.2.439"}
-ANSIBLE_VERSION=${11:-"2.12.3"}
-HELM_VERSION=${12:-"4.0.2"}
+TFLINT_VERSION=${3:-"0.60.0"}
+TFLINT_AWS_RULESET_VERSION=${4:-"0.23.1"}
+INFRACOST_VERSION=${5:-"0.10.41"}
+HELM_VERSION=${6:-"4.0.2"}
 
 echo "Installing Terraform v${TERRAFORM_VERSION}..."
 curl -sSL -o /tmp/terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
@@ -29,10 +23,10 @@ tar -xzf /tmp/terraform-docs.tar.gz -C /tmp
 sudo mv /tmp/terraform-docs /usr/local/bin/
 rm -f /tmp/terraform-docs.tar.gz
 
-echo "Installing tfsec v${TFSEC_VERSION}..."
-curl -sSLo /tmp/tfsec "https://github.com/aquasecurity/tfsec/releases/download/v${TFSEC_VERSION}/tfsec-linux-amd64"
-sudo mv /tmp/tfsec /usr/local/bin/
-sudo chmod +x /usr/local/bin/tfsec
+# echo "Installing tfsec v${TFSEC_VERSION}..."
+# curl -sSLo /tmp/tfsec "https://github.com/aquasecurity/tfsec/releases/download/v${TFSEC_VERSION}/tfsec-linux-amd64"
+# sudo mv /tmp/tfsec /usr/local/bin/
+# sudo chmod +x /usr/local/bin/tfsec
 
 # echo "Installing terrascan v${TERRASCAN_VERSION}..."
 # curl -sSLo /tmp/terrascan.tar.gz "https://github.com/tenable/terrascan/releases/download/v${TERRASCAN_VERSION}/terrascan_${TERRASCAN_VERSION}_Linux_x86_64.tar.gz"
@@ -69,21 +63,21 @@ if ! command -v go &> /dev/null; then
     GO_VERSION="1.20.5"
     curl -sSLo /tmp/go.tar.gz "https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz"
     sudo tar -C /usr/local -xzf /tmp/go.tar.gz
-    echo "export PATH=$PATH:/usr/local/go/bin" >> /home/vscode/.bashrc
-    echo "export PATH=$PATH:$HOME/go/bin" >> /home/vscode/.bashrc
+    echo "export PATH=$PATH:/usr/local/go/bin" >> /home/vscode/.zshrc
+    echo "export PATH=$PATH:$HOME/go/bin" >> /home/vscode/.zshrc
     rm -f /tmp/go.tar.gz
 fi
 
 # Create a simple wrapper script for terratest
-cat > /tmp/terratest << EOF
-#!/bin/bash
-echo "Terratest v${TERRATEST_VERSION}"
-echo "Terratest is a Go library for testing infrastructure code."
-echo "To use Terratest, add it to your Go project:"
-echo "go get github.com/gruntwork-io/terratest@v${TERRATEST_VERSION}"
-EOF
-sudo mv /tmp/terratest /usr/local/bin/
-sudo chmod +x /usr/local/bin/terratest
+# cat > /tmp/terratest << EOF
+# #!/bin/bash
+# echo "Terratest v${TERRATEST_VERSION}"
+# echo "Terratest is a Go library for testing infrastructure code."
+# echo "To use Terratest, add it to your Go project:"
+# echo "go get github.com/gruntwork-io/terratest@v${TERRATEST_VERSION}"
+# EOF
+# sudo mv /tmp/terratest /usr/local/bin/
+# sudo chmod +x /usr/local/bin/terratest
 
 echo "Installing Infracost v${INFRACOST_VERSION}..."
 curl -sSLo /tmp/infracost.tar.gz "https://github.com/infracost/infracost/releases/download/v${INFRACOST_VERSION}/infracost-linux-amd64.tar.gz"
@@ -111,10 +105,6 @@ plugin "aws" {
   enabled = true
 }
 EOF
-
-# Ansible installation
-echo "Installing Ansible v${ANSIBLE_VERSION}..."
-python3 -m pip install ansible
 
 # ARGO CD installation
 # Download Linux AMD64 binary
