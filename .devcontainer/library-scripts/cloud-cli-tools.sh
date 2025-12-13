@@ -51,6 +51,17 @@ EOF
     fi
 done
 
+# Bash My AWS installation
+git clone https://github.com/bash-my-aws/bash-my-aws.git "${BMA_HOME:-$HOME/.bash-my-aws}"
+export PATH="$PATH:${BMA_HOME:-$HOME/.bash-my-aws}/bin"
+# shellcheck disable=SC1091
+source "${BMA_HOME:-$HOME/.bash-my-aws}"/aliases
+# For ZSH users, uncomment the following two lines:
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+# shellcheck disable=SC1091
+source "${BMA_HOME:-$HOME/.bash-my-aws}"/bash_completion.sh
+
 # Create directories for credentials
 mkdir -p /home/vscode/.aws
 

@@ -40,8 +40,8 @@ echo 'source /home/vscode/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.z
 #     -p z \
 #     -t powerlevel10k \
 
-if [ ! -d "$HOME/.fzf" ]; then
-  git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+if [ ! -d "/home/vscode/.fzf" ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git "/home/vscode/.fzf"
 fi
 
 "$HOME/.fzf/install" --all
