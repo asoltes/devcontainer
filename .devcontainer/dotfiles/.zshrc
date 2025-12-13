@@ -118,8 +118,12 @@ export GOROOT=/usr/local/go
 
 
 # Load bash-my-aws completion if installed
-autoload -Uz compinit && compinit
-autoload -Uz bashcompinit && bashcompinit
+source "${BMA_HOME:-/home/vscode/.bash-my-aws}"/aliases
+# For ZSH users, uncomment the following two lines:
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+# shellcheck disable=SC1091
+source "${BMA_HOME:-/home/vscode/.bash-my-aws}"/bash_completion.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
