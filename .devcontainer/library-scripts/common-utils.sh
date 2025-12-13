@@ -23,9 +23,8 @@ apt-get -y install --no-install-recommends \
     unzip \
     python3 \
     python3-pip \
-    python-is-python3 \
-    fzf \
-
+    python-is-python3 
+    
 # Create directory for Terraform plugin cache
 mkdir -p /home/vscode/.terraform.d/plugin-cache
 chown -R vscode:vscode /home/vscode/.terraform.d
