@@ -112,16 +112,14 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source /home/vscode/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
-if command -v go &> /dev/null; then
-  export PATH="$PATH:/usr/local/go/bin"
-  export GOROOT=/usr/local/go
-fi
+# Go environment variables
+export PATH="$PATH:/usr/local/go/bin"
+export GOROOT=/usr/local/go
+
 
 # Load bash-my-aws completion if installed
-if [[ -d "$HOME/.bash-my-aws" ]] || [[ -f "$HOME/.bash-my-aws/bash_completion.sh" ]]; then
-  autoload -Uz compinit && compinit
-  autoload -Uz bashcompinit && bashcompinit
-fi
+autoload -Uz compinit && compinit
+autoload -Uz bashcompinit && bashcompinit
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
