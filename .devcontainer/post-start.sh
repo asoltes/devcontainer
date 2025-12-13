@@ -67,6 +67,7 @@ echo "Python: $(python3 --version)"
 echo "Go: $(go version)"
 
 # Display container information if available
+# shellcheck disable=SC3020
 if command -v devcontainer-info &> /dev/null; then
     devcontainer-info
 fi

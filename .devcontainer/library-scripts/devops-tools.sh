@@ -9,7 +9,7 @@ TERRAFORM_DOCS_VERSION=${2:-"0.20.0"}
 TFLINT_VERSION=${3:-"0.60.0"}
 TFLINT_AWS_RULESET_VERSION=${4:-"0.23.1"}
 INFRACOST_VERSION=${5:-"0.10.41"}
-HELM_VERSION=${6:-"4.0.2"}
+# HELM_VERSION=${6:-"4.0.2"}
 
 echo "Installing Terraform v${TERRAFORM_VERSION}..."
 curl -sSL -o /tmp/terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"

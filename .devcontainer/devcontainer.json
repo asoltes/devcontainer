@@ -91,7 +91,7 @@
 
         // Markdown settings
         "[markdown]": {
-          "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+          "editor.defaultFormatter": "vscode.markdown-language-features",
           "editor.formatOnSave": true
         }
       }
