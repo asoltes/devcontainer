@@ -28,14 +28,14 @@ echo "AWS CLI: $(aws --version)"
 echo "SAM CLI: $(sam --version)"
 echo "Terraform Docs: $(terraform-docs --version)"
 echo "TFLint: $(tflint --version)"
-echo "TFSec: $(tfsec --version)"
-echo "Terrascan: $(terrascan version)"
-echo "Terragrunt: $(terragrunt --version)"
-echo "Terratest: v$(terratest | head -n 1 | cut -d 'v' -f 2)"
-echo "Checkov: $(checkov --version)"
 echo "Kubectl: $(kubectl version --client=true)"
 echo "ArgoCD: $(argocd version --client)"
 echo "Ansible: $(ansible --version | head -n 1)"
+# echo "TFSec: $(tfsec --version)"
+# echo "Terrascan: $(terrascan version)"
+# echo "Terragrunt: $(terragrunt --version)"
+# echo "Terratest: v$(terratest | head -n 1 | cut -d 'v' -f 2)"
+# echo "Checkov: $(checkov --version)"
 echo ""
 
 # Display environment information
@@ -44,11 +44,11 @@ echo "Working Directory: $(pwd)"
 echo "User: $(whoami)"
 echo ""
 
-# Display authentication status
-echo "=== Authentication Status ==="
+# Display authentication 9status
+echo "=== Multiple Authentication Commands ==="
 echo "AWS: Run '.devcontainer/scripts/aws-auth.sh' to authenticate"
-# echo "Azure: Run '.devcontainer/scripts/azure-auth.sh' to authenticate"
-# echo "GCP: Run '.devcontainer/scripts/gcp-auth.sh' to authenticate"
+echo "Custom AX Function: Run ax (profile) | example: ax ctp-dev"
+echo "OhmyZSHPlugin: asp (profile) | example: asp ctp-dev ato authenticate"
 echo ""
 
 # Display helpful commands

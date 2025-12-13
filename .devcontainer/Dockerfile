@@ -28,9 +28,6 @@ USER root
 # Install base utils (builder only)
 RUN bash /tmp/library-scripts/common-utils.sh
 
-# Install cloud CLI tools (AWS CLI, SAM)
-RUN /tmp/library-scripts/cloud-cli-tools.sh
-
 # Install DevOps tools (Terraform stack, K8s, security, etc.)
 RUN /tmp/library-scripts/devops-tools.sh \
     "${TERRAFORM_VERSION}" \
@@ -74,20 +71,19 @@ RUN /tmp/library-scripts/custom-zsh-shell.sh
 # Copy CLI binaries and assets from builder to reduce final size
 COPY --from=builder /usr/local/bin/terraform /usr/local/bin/terraform
 COPY --from=builder /usr/local/bin/terraform-docs /usr/local/bin/terraform-docs
-COPY --from=builder /usr/local/bin/tfsec /usr/local/bin/tfsec
-COPY --from=builder /usr/local/bin/terrascan /usr/local/bin/terrascan
 COPY --from=builder /usr/local/bin/tflint /usr/local/bin/tflint
-COPY --from=builder /usr/local/bin/terragrunt /usr/local/bin/terragrunt
 COPY --from=builder /usr/local/bin/terratest /usr/local/bin/terratest
 COPY --from=builder /usr/local/bin/infracost /usr/local/bin/infracost
 COPY --from=builder /usr/local/bin/argocd /usr/local/bin/argocd
 COPY --from=builder /usr/local/bin/kubectl /usr/local/bin/kubectl
 COPY --from=builder /usr/local/bin/helm /usr/local/bin/helm
+# COPY --from=builder /usr/local/bin/terragrunt /usr/local/bin/terragrunt
+# COPY --from=builder /usr/local/bin/tfsec /usr/local/bin/tfsec
+# COPY --from=builder /usr/local/bin/terrascan /usr/local/bin/terrascan
+# COPY --from=builder /usr/local/bin/terratest /usr/local/bin/terratest
 
-# AWS CLI and SAM CLI (include supporting dirs if present)
-COPY --from=builder /usr/local/bin/aws /usr/local/bin/aws
-COPY --from=builder /usr/local/aws-cli /usr/local/aws-cli
-COPY --from=builder /usr/local/bin/sam /usr/local/bin/sam
+# AWS CLI and SAM CLI: install in final stage to preserve runtime layout
+RUN /tmp/library-scripts/cloud-cli-tools.sh
 
 # Trivy (installed via apt in builder; copy binary)
 COPY --from=builder /usr/bin/trivy /usr/local/bin/trivy

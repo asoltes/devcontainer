@@ -10,7 +10,7 @@ TFSEC_VERSION=${3:-"1.28.14"}
 TERRASCAN_VERSION=${4:-"1.19.9"}
 TFLINT_VERSION=${5:-"0.60.0"}
 TFLINT_AWS_RULESET_VERSION=${6:-"0.23.1"}
-TERRAGRUNT_VERSION=${7:-"0.50.1"}
+# TERRAGRUNT_VERSION=${7:-"0.50.1"}
 TERRATEST_VERSION=${8:-"0.49.0"}
 INFRACOST_VERSION=${9:-"0.10.41"}
 CHECKOV_VERSION=${10:-"3.2.439"}
@@ -34,11 +34,11 @@ curl -sSLo /tmp/tfsec "https://github.com/aquasecurity/tfsec/releases/download/v
 sudo mv /tmp/tfsec /usr/local/bin/
 sudo chmod +x /usr/local/bin/tfsec
 
-echo "Installing terrascan v${TERRASCAN_VERSION}..."
-curl -sSLo /tmp/terrascan.tar.gz "https://github.com/tenable/terrascan/releases/download/v${TERRASCAN_VERSION}/terrascan_${TERRASCAN_VERSION}_Linux_x86_64.tar.gz"
-tar -xzf /tmp/terrascan.tar.gz -C /tmp
-sudo mv /tmp/terrascan /usr/local/bin/
-rm -f /tmp/terrascan.tar.gz
+# echo "Installing terrascan v${TERRASCAN_VERSION}..."
+# curl -sSLo /tmp/terrascan.tar.gz "https://github.com/tenable/terrascan/releases/download/v${TERRASCAN_VERSION}/terrascan_${TERRASCAN_VERSION}_Linux_x86_64.tar.gz"
+# tar -xzf /tmp/terrascan.tar.gz -C /tmp
+# sudo mv /tmp/terrascan /usr/local/bin/
+# rm -f /tmp/terrascan.tar.gz
 
 echo "Installing tflint v${TFLINT_VERSION}..."
 curl -sSLo /tmp/tflint.zip "https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_linux_amd64.zip"
@@ -52,16 +52,16 @@ curl -sSLo /tmp/tflint-aws-ruleset.zip "https://github.com/terraform-linters/tfl
 unzip -qq /tmp/tflint-aws-ruleset.zip -d ~/.tflint.d/plugins
 rm -f /tmp/tflint-aws-ruleset.zip
 
-echo "Installing Terragrunt v${TERRAGRUNT_VERSION}..."
-curl -sSLo /tmp/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64"
-sudo mv /tmp/terragrunt /usr/local/bin/
-sudo chmod +x /usr/local/bin/terragrunt
+# echo "Installing Terragrunt v${TERRAGRUNT_VERSION}..."
+# curl -sSLo /tmp/terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64"
+# sudo mv /tmp/terragrunt /usr/local/bin/
+# sudo chmod +x /usr/local/bin/terragrunt
 
 curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b "/usr/local/bin" "${TRIVY_VERSION}"
 
-echo "Installing Terratest v${TERRATEST_VERSION}..."
-# Terratest is a Go library, so we'll set an environment variable to track the version
-echo "export TERRATEST_VERSION=${TERRATEST_VERSION}" >> /home/vscode/.bashrc
+# echo "Installing Terratest v${TERRATEST_VERSION}..."
+# # Terratest is a Go library, so we'll set an environment variable to track the version
+# echo "export TERRATEST_VERSION=${TERRATEST_VERSION}" >> /home/vscode/.bashrc
 
 # Install Go if not already installed
 if ! command -v go &> /dev/null; then
@@ -99,10 +99,10 @@ echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.
 apt-get update
 apt-get install -y trivy
 
-echo "Installing Checkov v${CHECKOV_VERSION}..."
-pip uninstall -y pycares aiodns
-pip install pycares==4.4.0 aiodns==3.1.1
-pip3 install "checkov==${CHECKOV_VERSION}"
+# echo "Installing Checkov v${CHECKOV_VERSION}..."
+# pip uninstall -y pycares aiodns
+# pip install pycares==4.4.0 aiodns==3.1.1
+# pip3 install "checkov==${CHECKOV_VERSION}"
 
 # Create .tflint.hcl config file
 mkdir -p /home/vscode/.tflint.d
