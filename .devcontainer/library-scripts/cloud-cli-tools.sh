@@ -30,27 +30,6 @@ rm -rf aws-sam-cli-linux-x86_64.zip sam-installation
 # Ansible installation
 python3 -m pip install ansible
 
-# Append AWS profile switcher function to .bashrc
-for rc_file in /home/vscode/.bashrc /home/vscode/.zshrc; do
-    if [ -f "$rc_file" ]; then
-        cat >> "$rc_file" <<'EOF'
-function ax() {
-    if [ -z "$1" ]; then
-        export AWS_PROFILE="ctp-dev"
-    else
-        export AWS_PROFILE="$1"
-    fi
-    echo "Activating AWS profile: $AWS_PROFILE"
-    if ! aws sts get-caller-identity --profile "$AWS_PROFILE" >/dev/null 2>&1; then
-        echo "Session invalid or expired. Logging in..."
-        aws sso login --profile "$AWS_PROFILE"
-    fi
-    echo "Switched to AWS profile: $AWS_PROFILE"
-}
-EOF
-    fi
-done
-
 # Bash My AWS installation
 git clone https://github.com/bash-my-aws/bash-my-aws.git "${BMA_HOME:-/home/vscode/.bash-my-aws}"
 export PATH="$PATH:${BMA_HOME:-/home/vscode/.bash-my-aws}/bin"

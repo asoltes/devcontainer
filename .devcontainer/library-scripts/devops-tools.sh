@@ -68,14 +68,12 @@ curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/inst
 
 # Install Go if not already installed
 if ! command -v go &> /dev/null; then
-    echo "Installing Go"
+    echo "Installing Go (required for Terratest)..."
     GO_VERSION="1.25.5"
     curl -sSLo /tmp/go.tar.gz "https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz"
-    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf /tmp/go.tar.gz
-    # shellcheck disable=SC2129
-    echo "" >> /home/vscode/.zshrc
-    # echo "export PATH=$PATH:/usr/local/go/bin" >> /home/vscode/.zshrc
-    # echo "export PATH=$PATH:/usr/local/go" >> /home/vscode/.zshrc
+    sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+    echo "export PATH=$PATH:/usr/local/go/bin" >> /home/vscode/.zshrc
+    echo "export PATH=$PATH:$HOME/go/bin" >> /home/vscode/.zshrc
     rm -f /tmp/go.tar.gz
 fi
 

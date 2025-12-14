@@ -89,8 +89,9 @@ RUN chown -R vscode:vscode /home/vscode/.tflint.d /home/vscode/.tflint.hcl || tr
 # Zsh configs
 COPY dotfiles/.zshrc /home/vscode/.zshrc
 COPY dotfiles/.p10k.zsh /home/vscode/.p10k.zsh
-RUN chown vscode:vscode /home/vscode/.zshrc /home/vscode/.p10k.zsh \
-    && chmod 644 /home/vscode/.zshrc /home/vscode/.p10k.zsh
+COPY dotfiles/.zsh_customs /home/vscode/.zsh_customs
+RUN chown vscode:vscode /home/vscode/.zshrc /home/vscode/.p10k.zsh /home/vscode/.zsh_customs \
+    && chmod 644 /home/vscode/.zshrc /home/vscode/.p10k.zsh /home/vscode/.zsh_customs
 
 # Project scripts and configuration
 COPY scripts /home/vscode/.devcontainer/scripts

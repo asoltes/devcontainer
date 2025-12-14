@@ -78,7 +78,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(git git zsh-autosuggestions zsh-syntax-highlighting aws z)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git zsh-autosuggestions zsh-syntax-highlighting aws z)
+plugins=(git git zsh-autosuggestions zsh-syntax-highlighting aws z fzf)
 
 
 source $ZSH/oh-my-zsh.sh
@@ -112,18 +112,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source /home/vscode/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
-# Go environment variables
-export PATH="$PATH:/usr/local/go/bin"
-export GOROOT=/usr/local/go
 
-
-# Load bash-my-aws completion if installed
-source "${BMA_HOME:-/home/vscode/.bash-my-aws}"/aliases
-# For ZSH users, uncomment the following two lines:
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
-# shellcheck disable=SC1091
-source "${BMA_HOME:-/home/vscode/.bash-my-aws}"/bash_completion.sh
+# Source custom environment variables and settings
+[[ ! -f ~/.zsh_customs ]] || source ~/.zsh_customs
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
