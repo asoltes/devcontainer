@@ -1,0 +1,33 @@
+# shellcheck disable=SC2148
+# Load bash-my-aws completion if installed
+# shellcheck disable=SC1091
+source "${BMA_HOME:-/home/vscode/.bash-my-aws}"/aliases
+# For ZSH users, uncomment the following two lines:
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+# shellcheck disable=SC1091
+source "${BMA_HOME:-/home/vscode/.bash-my-aws}"/bash_completion.sh
+
+# Always source AWS profile environment variables if they exist
+# shellcheck disable=SC1091
+[ -f "$HOME/.aws/profile.env" ] && . "$HOME/.aws/profile.env"
+
+# Append AWS profile switcher function to .bashrc
+function ax() {
+    if [ -z "$1" ]; then
+        export AWS_PROFILE="ctp-dev"
+    else
+        export AWS_PROFILE="$1"
+    fi
+    echo "Activating AWS profile: $AWS_PROFILE"
+    if ! aws sts get-caller-identity --profile "$AWS_PROFILE" >/dev/null 2>&1; then
+        echo "Session invalid or expired. Logging in..."
+        if ! aws sso login --profile "$AWS_PROFILE"; then
+            echo "Error: Failed to login to AWS profile: $AWS_PROFILE"
+            unset AWS_PROFILE
+            return 1
+        fi
+    fi
+    echo "Switched to AWS profile: $AWS_PROFILE"
+    echo "export AWS_PROFILE=\"$AWS_PROFILE\"" > "$HOME/.aws/profile.env"
+}
