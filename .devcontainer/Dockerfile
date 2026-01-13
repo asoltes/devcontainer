@@ -4,6 +4,9 @@ ARG VARIANT="jammy"
 # Builder stage: install tools
 # ---------------------
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT} AS builder
+COPY certs/zscaler.crt /usr/local/share/ca-certificates/zscaler.crt
+RUN update-ca-certificates
+
 
 # Set versions as build args
 ARG TERRAFORM_VERSION="1.14.1"
@@ -64,7 +67,7 @@ COPY --from=builder /usr/local/bin/infracost /usr/local/bin/infracost
 COPY --from=builder /usr/local/bin/argocd /usr/local/bin/argocd
 COPY --from=builder /usr/local/bin/kubectl /usr/local/bin/kubectl
 COPY --from=builder /usr/local/bin/helm /usr/local/bin/helm
-COPY --from=builder /usr/local/go/bin/go /usr/local/go/bin/go
+COPY --from=builder /usr/bin/go /usr/bin/go
 
 # COPY --from=builder /usr/local/bin/terratest /usr/local/bin/terratest
 # COPY --from=builder /usr/local/bin/terragrunt /usr/local/bin/terragrunt

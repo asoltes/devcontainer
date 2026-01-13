@@ -29,8 +29,8 @@
         "hashicorp.terraform",
         "run-at-scale.terraform-doc-snippets",
         "redhat.vscode-yaml",
-        "donjayamanne.githistory",
-        "mhutchie.git-graph",
+        "-donjayamanne.githistory",
+        "-mhutchie.git-graph",
         "ms-vscode-remote.remote-containers",
         "ms-vscode-remote.remote-ssh",
         "ms-vscode-remote.remote-ssh-edit",
@@ -41,7 +41,8 @@
         "ms-python.python",
         "ms-python.vscode-pylance",
         "docker.docker",
-        "ms-azuretools.vscode-containers"
+        "ms-azuretools.vscode-containers",
+        "mutantdino.resourcemonitor"
       ],
       // Set *default* container specific settings.json values on container create
       "settings": {
@@ -102,6 +103,8 @@
   "mounts": [
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/vscode/.aws,type=bind,consistency=cached",
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
+    // "source=profile,target=root,type=volume",
+    // "target=/root/.vscode-server,type=volume",
     "source=terraform-cache,target=/home/vscode/.terraform.d/plugin-cache,type=volume"
   ],
 
